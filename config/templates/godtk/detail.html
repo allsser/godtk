@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href={% static 'css/detail.css' %}>
+{% load make_link %}
+{% load bootstrap4 %}
+
+{% block body %}
+
+  <br>
+  <h1>DETAIL</h1>
+  <hr>
+  <img src="{% static 'godtk/images/captuer.png' %}" alt="no_image" style="width:250px;">
+<p>이벤트 : {{ godtk.event_title }}</p>
+<P>업체 : {{ godtk.company_name }}</p>
+<P>행사 시작 날짜: {{ godtk.start_date }} </p>
+<P>행사 끝나는 날짜 : {{ godtk.end_date }}</p>
+<P>행사 소개 : {{ godtk.content }}</p>
+<P>URL 주소 : {{ godtk.event_url }}</p>
+{% if godtk.img_path %}
+  <P>이미지 : <img src="{{ godtk.img_path.url }}"</p>
+{% endif %}
+{% comment %} <p>글 내용 : {{ article.content }}</p> {% endcomment %}
+<p>해시태그:{{godtk|hashtag_link|safe }}</p>
+<hr>
+
+
+<a href="{% url 'godtk:index' %}">[BACK]</a>
+{% if user.is_authenticated %}
+<a href="{% url 'godtk:update' godtk.pk %}">[UPDATE]<a>
+<form action="{% url 'godtk:delete' godtk.pk %}" method="POST">
+{% csrf_token %}<button type="submit" >[DELETE]</button>
+</form>
+<hr>
+{% endif %}
+{% endblock %}

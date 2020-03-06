@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>{{ hashtag.tag }} 게시글 모아보기 </h1>
+<h4>{{ godtk|length }}개의 글이 있습니다.</h4>
+<hr>
+<div class="row">
+{% for godtk in godtk %}
+  {% include 'godtk/_article.html' %}
+{% endfor %}
+{% endblock body %}
+</div>

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+
+{% if request.resolver_match.url_name == 'create' %}
+<h1>CREATE</h1>
+{% else %}
+<h1>UPDATE</h1>
+{% endif %}
+<hr>
+<!--
+  action 값이 공백일 경우, 현재 위치하고 있는 주소로 요청을 보낸다. 폼을 던져주는 경로,
+  DB에 저장하는 경로가 동일하다면 공백으로 해도 정상적으로 동작한다.
+-->
+<form action="" method="POST" enctype="multipart/form-data">
+  <!-- POST 요청할 때 반드시 설정 -->
+  {% csrf_token %}
+  {% bootstrap_form form layout='inline' %}
+  {% comment %} {{ form.as_p }} {% endcomment %}
+
+  {% comment %} <input type="submit"> {% endcomment %}
+  <div class="text-center">
+    {% buttons submit='제출' reset="초기화" %}{% endbuttons %}
+  </div>
+</form>
+<hr>
+{% if request.resolver_match.url_name == 'create' %}
+<a href="{% url 'godtk:index' %}">[BACK]</a>
+{% else %}
+<a href="{% url 'godtk:detail' godtk.pk %}">[BACK]</a>
+{% endif %}
+
+{% endblock %}

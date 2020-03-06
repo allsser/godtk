@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1 class="text-center">GodTK</h1>
+
+{% if user.is_authenticated %}
+  <a href="{% url 'godtk:create' %}">[관리자] 생성</a>
+{% endif %}
+
+<hr>
+
+<h1>TEST</h1>
+<form class="mb-4" action="{% url 'godtk:search' %}">
+    <div class="form-row justify-content-center">
+      <div class="mb-2 col-12 col-sm-9 col-md-10">
+        <input type="text" class="form-control" name="query" placeholder="제목을 입력해주세요">
+      </div>
+      <div class="col-12 col-sm-3 col-md-2">
+        <input type="submit" class="form-control btn btn-success" value="검색">
+      </div>
+    </div>
+</form>
+
+<hr>
+<div class="row">
+  {% for godtk in godtk %}
+  <!-- 모듈화 시켜둔 article 템플릿 가져오기 -->
+  {% include 'godtk/_article.html' %}
+  {% endfor %}
+</div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% if godtk.has_previous %}
+    <li class="page-item ">
+      <a class="page-link" href="{% url 'godtk:index' %}?page={{godtk.previous_page_number}}" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+    {% endif %}
+    <!--페이지버튼-->
+    {% for num in godtk.paginator.page_range %}
+    <li class="page-item" {% if num == godtk.number %}active{% endif %}><a class="page-link" href="{% url 'godtk:index' %}?page={{ num }}">{{ num }}</a></li>
+    {% endfor%}
+
+    {% if godtk.has_next %}
+    <li class="has_next">
+      <a class="page-link" href="{% url 'godtk:index' %}?page={{godtk.next_page_number}}">Next</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endblock body %}

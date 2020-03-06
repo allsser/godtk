@@ -1,0 +1,24 @@
+{% load make_link %}
+
+<div class="col-12 col-md-6 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          이벤트: {{godtk.event_title}}</h5>
+        <p class="card-text">
+       
+        <br>
+          내용: {{godtk.content}}
+        </br>
+     
+          해시태그: {{godtk|hashtag_link|safe}}
+        <br>
+         기간: {{godtk.start_date}} ~ {{godtk.end_date}}
+        <br>
+
+        </p>
+       
+       <a href="{% url 'godtk:detail' godtk.pk %}" class="btn btn-primary">상세보기</a>
+      </div>
+    </div>
+</div>

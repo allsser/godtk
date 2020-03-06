@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>검색결과</h1><br>
+  <form class="mb-4" action="{% url 'godtk:search' %}">
+    <div class="form-row justify-content-center">
+      <div class="mb-2 col-12 col-sm-9 col-md-10">
+        <input type="text" class="form-control" name="query" placeholder="제목을 입력해주세요">
+      </div>
+      <div class="col-12 col-sm-3 col-md-2">
+        <input type="submit" class="form-control btn btn-success" value="검색">
+      </div>
+    </div>
+  </form>
+
+ <ul class="list-group">
+ {% for godtk in godtk %}
+  <a href={% url 'godtk:detail' godtk.pk %} class="mb-2">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    [{{ forloop.counter }}]{{godtk.event_title}}
+  </li>
+  </a>
+  {% endfor %}
+</ul>
+{% endblock body %}
