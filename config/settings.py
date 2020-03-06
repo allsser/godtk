@@ -24,16 +24,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = ')_vg-%(x7q^t0re_+ar5tlgazr&fhmwz6f6@t$_(73^hh&8v&6'
-ROOT_DIR = os.path.dirname(BASE_DIR)
-# secrets.json의 경로
-SECRETS_PATH = os.path.join(BASE_DIR, 'secrets.json')
-# json파일을 파이썬 객체로 변환
-secrets = json.loads(open(SECRETS_PATH).read())
+with open('secret.json', 'r') as f:
+    secret = json.loads(f.read())
+# with 함수는 자동으로 파일을 닫아준다
 
-# json파일은 dict로 변환되므로, .items()를 호출해 나온 key와 value를 사용해
-# settings모듈에 동적으로 할당
-for key, value in secrets.items():
-    setattr(sys.modules[__name__], key, value)
+def get_secret(setting, secret=secret):
+    try:
+        return secret[setting]
+    except:
+        msg = "Set key '{0}' in secret.json".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_secret('SECRET_KEY') # my-secret-key
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
